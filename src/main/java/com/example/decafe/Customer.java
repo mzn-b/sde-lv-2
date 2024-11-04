@@ -100,8 +100,8 @@ public class Customer {
         int number = random.nextInt(2);
 
         switch (number) {
-            case 0 -> order = "cake";
-            case 1 -> order = "coffee";
+            case 0 -> order = "coffee";
+            case 1 -> order = "cake";
         }
 
         return order;
@@ -225,7 +225,7 @@ public class Customer {
                         controllerTimer.purge();
                     }
                 },
-                duration * 1000L
+                duration * 1200L
         );
     }
 
@@ -245,7 +245,7 @@ public class Customer {
                         controllerTimer.purge();
                     }
                 },
-                1000
+                1200
         );
         this.sixtySecondsTimer.cancel(); //cancel the 60 seconds when customer left
     }
@@ -254,11 +254,11 @@ public class Customer {
     public void waitingTime()  {
         Customer customer = this;
         TimerTask timerTask = new TimerTask() {
-            int seconds = 60;
+            int seconds = 90;
             @Override
             public void run() {
                 seconds --;
-                if (seconds == 59){ //set green smiley when the customer has just spawned
+                if (seconds == 89){ //set green smiley when the customer has just spawned
                     smiley.setVisible(true);
                     try {
                         smiley.setImage(createImage("smileygreen.png"));
@@ -268,7 +268,7 @@ public class Customer {
                     green = true;
                     yellow = false;
                     red = false;
-                }else if (seconds == 30){ //set yellow smiley when the customer has just spawned
+                }else if (seconds == 60){ //set yellow smiley when the customer has just spawned
                     smiley.setVisible(true);
                     try {
                         smiley.setImage(createImage("smileyyellow.png"));
@@ -278,7 +278,7 @@ public class Customer {
                     green = false;
                     yellow = true;
                     red = false;
-                }else if (seconds == 15){ //set red smiley when the customer has just spawned
+                }else if (seconds == 30){ //set red smiley when the customer has just spawned
                     smiley.setVisible(true);
                     try {
                         smiley.setImage(createImage("smileyred.png"));
