@@ -79,16 +79,16 @@ public class Game {
 
     // Method to check if the Player can use a certain Upgrade
     public void checkUpgradePossible(Upgrade upgrade) throws FileNotFoundException {
-        if (!upgrade.isAlreadyUsedOnce() && this.coinsEarned >= upgrade.getCoinsNeeded()){ // If upgrade was not already used and the Player earned enough coins to buy it
+        if (!upgrade.isUsed() && this.coinsEarned >= upgrade.getCoinsNeeded()) { // If upgrade was not already used and the Player earned enough coins to buy it
             // Enable the ImageView
-            upgrade.getUpgradeImageView().setDisable(false);
+            upgrade.getImageView().setDisable(false);
             // Set the Image to the "activated" Upgrade Image
-            upgrade.getUpgradeImageView().setImage(createImage(upgrade.getFilenameUpgradeNotUsed()));
+            upgrade.getImageView().setImage(createImage(upgrade.getFilenameUpgradeNotUsed()));
         } else { // If the upgrade was used already or the Player hasn't enough coins to buy it
             // Disable the Image
-            upgrade.getUpgradeImageView().setDisable(true);
+            upgrade.getImageView().setDisable(true);
             // Set the Image to "deactivated" Upgrade Image
-            upgrade.getUpgradeImageView().setImage(createImage(upgrade.getFilenameUpgradeUsed()));
+            upgrade.getImageView().setImage(createImage(upgrade.getFilenameUpgradeUsed()));
         }
     }
 
