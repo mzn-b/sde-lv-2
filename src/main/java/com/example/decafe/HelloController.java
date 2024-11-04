@@ -491,7 +491,7 @@ public class HelloController implements Initializable {
     // Method to actively use an Upgrade
     public void doUpgrade(MouseEvent e) throws FileNotFoundException {
         // activate the Upgrade (according to whatever ImageView was chosen)
-        Play.doUpgrade(((ImageView) e.getSource()).getId(), CofiBrew);
+        Play.doUpgrade(UpgradeEnum.valueOf(((ImageView) e.getSource()).getId()), CofiBrew);
         // set the coin label to the correct amount of coins (coins earned - upgrade costs)
         coinsEarnedLabel.setText(String.valueOf(Play.getCoinsEarned()));
 

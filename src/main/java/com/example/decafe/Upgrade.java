@@ -23,13 +23,8 @@ public class Upgrade {
     private final String filenameUpgradeUsed;
     private final ImageView imageView;
 
-    public Image createImage(String filename) throws FileNotFoundException {
-        InputStream stream = new FileInputStream(filename);
-        return new Image(stream);
-    }
-
     public int doUpgrades(int coin) throws FileNotFoundException {
-        imageView.setImage(createImage(filenameUpgradeUsed));
+        imageView.setImage(Game.createImage(filenameUpgradeUsed));
         imageView.setDisable(true);
         setUsed(true);
         coin -= coinsNeeded;

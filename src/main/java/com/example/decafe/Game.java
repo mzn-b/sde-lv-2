@@ -2,12 +2,13 @@ package com.example.decafe;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import lombok.Getter;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+@Getter
 //Class that is used mainly to control certain assets of the Game like Machines, Upgrades and the Coin Score
 public class Game {
     private final Machine coffeeMachine; // A Machine Object used to make Coffee
@@ -33,47 +34,9 @@ public class Game {
         this.filenameImageThreeCoins = "3coins.png";
     }
 
-    // Getter
-    public Machine getCakeMachine() {
-        return cakeMachine;
-    }
-
-    public Machine getCoffeeMachine() {
-        return coffeeMachine;
-    }
-
-    public Upgrade getCakeUpgrade() {
-        return cakeUpgrade;
-    }
-
-    public Upgrade getCoffeeUpgrade() {
-        return coffeeUpgrade;
-    }
-
-    public Upgrade getPlayerUpgrade() {
-        return playerUpgrade;
-    }
-
-    public String getFilenameImageThreeCoins() {
-        return filenameImageThreeCoins;
-    }
-
-    public String getFilenameImageFourCoins() {
-        return filenameImageFourCoins;
-    }
-
-    public String getFilenameImageDollar() {
-        return filenameImageDollar;
-    }
-
-    public int getCoinsEarned() { return coinsEarned; }
-
     // Method used to create an Image Object
-    public Image createImage(String filename) throws FileNotFoundException {
-        File f = new File(""); // Get filepath of project
-        // Get path to certain Image
-        String filePath = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + filename;
-        InputStream stream = new FileInputStream(filePath); // Convert path into stream
+    public static Image createImage(String filename) throws FileNotFoundException {
+       InputStream stream = new FileInputStream(filename); // Convert path into stream
         return new Image(stream); // Convert stream to Image and return it
     }
 
@@ -93,25 +56,25 @@ public class Game {
     }
 
     // Method to do a certain upgrade
-    public void doUpgrade(String type, Player CofiBrew) throws FileNotFoundException {
+    public void doUpgrade(UpgradeEnum type, Player cofiBrew) throws FileNotFoundException {
         switch (type) { // Switch the type of upgrade you received
-            case "coffee" -> { // If the player chose the coffee upgrade
+            case COFFEE -> { // If the player chose the coffee upgrade
                 // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
                 coinsEarned = coffeeUpgrade.doUpgrades(coinsEarned);
                 // Increase the speed of the Coffee Machine
                 coffeeMachine.setDuration(2);
             }
-            case "cake" -> { // If the player chose the cake upgrade
+            case CAKE -> { // If the player chose the cake upgrade
                 // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
                 coinsEarned = cakeUpgrade.doUpgrades(coinsEarned);
                 // Increase the speed of the Cake Machine
                 cakeMachine.setDuration(2);
             }
-            case "player" -> { // If the player chose the player upgrade
+            case PLAYER -> { // If the player chose the player upgrade
                 // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
                 coinsEarned = playerUpgrade.doUpgrades(coinsEarned);
                 // Increase the movement speed of the Player
-                CofiBrew.setMovement(6);
+                cofiBrew.setMovement(6);
             }
         }
     }
