@@ -85,7 +85,7 @@ public class Machine {
         Timeline timelineBar = new Timeline(
                 new KeyFrame(
                         // Set this value for the speed of the animation
-                        Duration.millis(300),
+                        Duration.millis(250),
                         new KeyValue(statusCountProperty, maxStatus)
                 )
         );
@@ -181,6 +181,7 @@ public class Machine {
                 // Falls ein unerwarteter Wert vorliegt (sollte nicht passieren)
                 System.out.println("Unbekanntes Produkt in der Hand des Kellners.");
                 break;
+
         }
 
 
