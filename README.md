@@ -13,3 +13,8 @@ To be able to play our game you need to run the `public static void main(String[
 ## How to play the Game
 Everything you need to know to play our game is explained in the Instruction Screen (the one after the Start Screen)
 # Have Fun!
+##Contributors
+Bondok Mohamed (2410838001)
+El-shaarawi Mazen (2410838014)
+Kronemann Mathias (2410838024)
+Wang Lulu (2410838012)
