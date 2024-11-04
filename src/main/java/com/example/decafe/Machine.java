@@ -84,7 +84,7 @@ public class Machine {
         Timeline timelineBar = new Timeline(
                 new KeyFrame(
                         // Set this value for the speed of the animation
-                        Duration.millis(300),
+                        Duration.millis(250),
                         new KeyValue(statusCountProperty, maxStatus)
                 )
         );
@@ -164,14 +164,14 @@ public class Machine {
                     imageCofi = cofiBrew.getFilenameImageWithCake();
                 }
             } else { // If coffee Brew has something in his hands (so he can't pick up the product produced)
-                    // Keep the picture the same
-                    if (cofiBrew.getProductInHand().equals("coffee")){ // So if he holds coffee at the moment
-                        // Set Image to waiter with coffee
-                        imageCofi = cofiBrew.getFilenameImageWithCoffee();
-                    } else { // If he holds cake at the moment
-                        // Set Image to waiter with cake
-                        imageCofi = cofiBrew.getFilenameImageWithCake();
-                    }
+                // Keep the picture the same
+                if (cofiBrew.getProductInHand().equals("coffee")){ // So if he holds coffee at the moment
+                    // Set Image to waiter with coffee
+                    imageCofi = cofiBrew.getFilenameImageWithCoffee();
+                } else { // If he holds cake at the moment
+                    // Set Image to waiter with cake
+                    imageCofi = cofiBrew.getFilenameImageWithCake();
+                }
             }
         }
         // Set the waiter Image to whatever images was chosen above
