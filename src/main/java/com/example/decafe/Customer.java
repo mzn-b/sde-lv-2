@@ -1,11 +1,9 @@
 package com.example.decafe;
 
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+
 
 import java.io.*;
 import java.util.*;
@@ -96,15 +94,11 @@ public class Customer {
 
     public String getRandomOrder() { //returns random order
 
+        String[] orders = {"cake", "coffee"};
         Random random = new Random();
-        int number = random.nextInt(2);
 
-        switch (number) {
-            case 0 -> order = "coffee";
-            case 1 -> order = "cake";
-        }
+        return orders[random.nextInt(orders.length)];
 
-        return order;
     }
 
     public ImageView getCoinImage() { //returns the image of the coin
@@ -130,51 +124,23 @@ public class Customer {
     }
 
     //Returns the appropriate image for the customer
-    public static ImageView getImage(ImageView customer, ImageView[] searchArray ){
-        ImageView wantedImage = new ImageView();
-
-        if (customerImages[0].equals(customer)) {
-            wantedImage = searchArray[0];
-        } else if (customerImages[1].equals(customer)) {
-            wantedImage = searchArray[1];
-        } else if (customerImages[2].equals(customer)) {
-            wantedImage = searchArray[2];
-        } else if (customerImages[3].equals(customer)) {
-            wantedImage = searchArray[3];
-        } else if (customerImages[4].equals(customer)) {
-            wantedImage = searchArray[4];
-        } else if (customerImages[5].equals(customer)) {
-            wantedImage = searchArray[5];
-        } else if (customerImages[6].equals(customer)) {
-            wantedImage = searchArray[6];
-        }
-
-        return wantedImage;
+    public static ImageView getImage(ImageView customer, ImageView[] searchArray) {
+        return findMatchingImage(customer, searchArray);
     }
 
-    //Returns the appropriate label for the customer
+    // Returns the appropriate label for the customer
     public static ImageView getLabel(ImageView customer) {
+        return findMatchingImage(customer, orderLabels);
+    }
 
-        ImageView customerOrder = new ImageView();
-
-        if (customerImages[0].equals(customer)) {
-            customerOrder = orderLabels[0];
-        } else if (customerImages[1].equals(customer)) {
-            customerOrder = orderLabels[1];
-        } else if (customerImages[2].equals(customer)) {
-            customerOrder = orderLabels[2];
-        } else if (customerImages[3].equals(customer)) {
-            customerOrder = orderLabels[3];
-        } else if (customerImages[4].equals(customer)) {
-            customerOrder = orderLabels[4];
-        } else if (customerImages[5].equals(customer)) {
-            customerOrder = orderLabels[5];
-        } else if (customerImages[6].equals(customer)) {
-            customerOrder = orderLabels[6];
+    // Generic method to find a matching ImageView
+    private static ImageView findMatchingImage(ImageView customer, ImageView[] array) {
+        for (int i = 0; i < customerImages.length && i < array.length; i++) {
+            if (customerImages[i].equals(customer)) {
+                return array[i];
+            }
         }
-
-        return customerOrder;
-
+        return new ImageView(); // Return an empty ImageView if no match is found
     }
 
     //Returns random customer picture
@@ -251,52 +217,43 @@ public class Customer {
     }
 
     //Methode for the general 60 seconds timer
-    public void waitingTime()  {
+    public void waitingTime() {
         Customer customer = this;
         TimerTask timerTask = new TimerTask() {
-            int seconds = 90;
+
+            int seconds = 60;
+
             @Override
             public void run() {
-                seconds --;
-                if (seconds == 89){ //set green smiley when the customer has just spawned
-                    smiley.setVisible(true);
-                    try {
-                        smiley.setImage(createImage("smileygreen.png"));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+                seconds--;
+
+                try {
+                    if (seconds == 59) {
+                        updateSmiley("smileygreen.png", true, false, false);
+                    } else if (seconds == 30) {
+                        updateSmiley("smileyyellow.png", false, true, false);
+                    } else if (seconds == 15) {
+                        updateSmiley("smileyred.png", false, false, true);
+                    } else if (seconds == 0) {
+                        startTimerLeave(customer);
+                        this.cancel(); // Stop the timer when finished
+
                     }
-                    green = true;
-                    yellow = false;
-                    red = false;
-                }else if (seconds == 60){ //set yellow smiley when the customer has just spawned
-                    smiley.setVisible(true);
-                    try {
-                        smiley.setImage(createImage("smileyyellow.png"));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    green = false;
-                    yellow = true;
-                    red = false;
-                }else if (seconds == 30){ //set red smiley when the customer has just spawned
-                    smiley.setVisible(true);
-                    try {
-                        smiley.setImage(createImage("smileyred.png"));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    green = false;
-                    yellow = false;
-                    red = true;
-                }
-                else if (seconds == 0){ //when the timer has finished - customer leaves
-                    startTimerLeave(customer);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
             }
         };
 
-        this.sixtySecondsTimer.schedule(timerTask, 0, 1000);//it should call this methode every second
+        this.sixtySecondsTimer.schedule(timerTask, 0, 1000); // Schedule the timer to run every second
+    }
 
+    private void updateSmiley(String imageName, boolean isGreen, boolean isYellow, boolean isRed) throws FileNotFoundException {
+        smiley.setVisible(true);
+        smiley.setImage(createImage(imageName));
+        this.green = isGreen;
+        this.yellow = isYellow;
+        this.red = isRed;
     }
 
     //Methode to display order
