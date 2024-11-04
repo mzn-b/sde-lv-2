@@ -2,13 +2,10 @@ package com.example.decafe;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import lombok.Getter;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-@Getter
 //Class that is used mainly to control certain assets of the Game like Machines, Upgrades and the Coin Score
 public class Game {
     private final Machine coffeeMachine; // A Machine Object used to make Coffee
@@ -91,5 +88,41 @@ public class Game {
             // Increase coin score by 3
             this.coinsEarned += 3;
         }
+    }
+
+    public Machine getCoffeeMachine() {
+        return coffeeMachine;
+    }
+
+    public Machine getCakeMachine() {
+        return cakeMachine;
+    }
+
+    public Upgrade getCoffeeUpgrade() {
+        return coffeeUpgrade;
+    }
+
+    public Upgrade getCakeUpgrade() {
+        return cakeUpgrade;
+    }
+
+    public Upgrade getPlayerUpgrade() {
+        return playerUpgrade;
+    }
+
+    public int getCoinsEarned() {
+        return coinsEarned;
+    }
+
+    public String getFilenameImageThreeCoins() {
+        return filenameImageThreeCoins;
+    }
+
+    public String getFilenameImageFourCoins() {
+        return filenameImageFourCoins;
+    }
+
+    public String getFilenameImageDollar() {
+        return filenameImageDollar;
     }
 }
