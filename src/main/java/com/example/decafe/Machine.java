@@ -1,4 +1,6 @@
 package com.example.decafe;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -48,10 +50,9 @@ public class Machine {
 
     // Method used to create an Image Object
     public Image createImage(String filename) throws FileNotFoundException {
-        File f = new File(""); // Get filepath of project
         // Get path to certain Image
-        String filePath = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + filename;
-        InputStream stream = new FileInputStream(filePath); // Convert path into stream
+        Path filePath = Paths.get("", "src", "main", "resources", "com", "example", "decafe", filename);
+        InputStream stream = new FileInputStream(filePath.toFile()); // Convert path into stream
         return new Image(stream); // Convert stream to Image and return it
     }
 
@@ -132,48 +133,57 @@ public class Machine {
         // Set boolean got produced to false - used to check if a product was produced when clicked on Machine
         boolean gotProduced = false;
 
-        if (!this.produced && cofiBrew.getProductInHand().equals("none")) { // If Machine hasn't produced something and the waiter has nothing in his hands
-            // Set both booleans to produced
-            this.setProduced(true);
-            gotProduced = true;
-        } else if (!this.produced && cofiBrew.getProductInHand().equals("coffee")) { // If machine hasn't produced anything and the waiter has coffee in his hands
-            // Set both booleans to produced
-            this.setProduced(true);
-            gotProduced = true;
-            // Change Image to waiter with Coffee (since it's not the same as the default)
-            imageCofi = cofiBrew.getFilenameImageWithCoffee();
-        } else if (!this.produced && cofiBrew.getProductInHand().equals("cake")) { // If machine hasn't produced anything and the waiter has cake in his hands
-            // Set both booleans to produced
-            this.setProduced(true);
-            gotProduced = true;
-            // Change Image to waiter with Cake (since it's not the same as the default)
-            imageCofi = cofiBrew.getFilenameImageWithCake();
-        } else { // If something was already produced
-            if (cofiBrew.getProductInHand().equals("none")){ // And the waiter hasn't anything in his hands
-                // Set produced boolean to false since nothing was produces
-                this.setProduced(false);
-                // Change Image to Machine without product (since product was taken)
-                imageMachine = this.filenameImageMachineWithoutProduct;
-                // Set the product the player obtain to whatever type the machine is
-                cofiBrew.setProductInHand(this.productType);
-                if (this.productType.equals("coffee")){ // If the type of the machine is coffee
-                    // Change the images of the waiter, so he holds coffee
-                    imageCofi = cofiBrew.getFilenameImageWithCoffee();
-                } else { // If the type of the machine is cake
-                    // Change the images of the waiter, so he holds cake
-                    imageCofi = cofiBrew.getFilenameImageWithCake();
-                }
-            } else { // If coffee Brew has something in his hands (so he can't pick up the product produced)
-                    // Keep the picture the same
-                    if (cofiBrew.getProductInHand().equals("coffee")){ // So if he holds coffee at the moment
-                        // Set Image to waiter with coffee
+        switch (cofiBrew.getProductInHand()) {
+            case "none":
+                if (!this.produced) {
+                    // Falls die Maschine noch nichts produziert hat und der Kellner nichts in den Händen hat
+                    this.setProduced(true);
+                    gotProduced = true;
+                } else {
+                    // Wenn bereits etwas produziert wurde, der Kellner aber nichts in der Hand hat
+                    this.setProduced(false);
+                    imageMachine = this.filenameImageMachineWithoutProduct;
+                    cofiBrew.setProductInHand(this.productType);
+
+                    if (this.productType.equals("coffee")) {
                         imageCofi = cofiBrew.getFilenameImageWithCoffee();
-                    } else { // If he holds cake at the moment
-                        // Set Image to waiter with cake
+                    } else {
                         imageCofi = cofiBrew.getFilenameImageWithCake();
                     }
-            }
+                }
+                break;
+
+            case "coffee":
+                if (!this.produced) {
+                    // Falls die Maschine noch nichts produziert hat und der Kellner Kaffee in den Händen hat
+                    this.setProduced(true);
+                    gotProduced = true;
+                    imageCofi = cofiBrew.getFilenameImageWithCoffee();
+                } else {
+                    // Falls der Kellner bereits Kaffee in der Hand hat
+                    imageCofi = cofiBrew.getFilenameImageWithCoffee();
+                }
+                break;
+
+            case "cake":
+                if (!this.produced) {
+                    // Falls die Maschine noch nichts produziert hat und der Kellner Kuchen in den Händen hat
+                    this.setProduced(true);
+                    gotProduced = true;
+                    imageCofi = cofiBrew.getFilenameImageWithCake();
+                } else {
+                    // Falls der Kellner bereits Kuchen in der Hand hat
+                    imageCofi = cofiBrew.getFilenameImageWithCake();
+                }
+                break;
+
+            default:
+                // Falls ein unerwarteter Wert vorliegt (sollte nicht passieren)
+                System.out.println("Unbekanntes Produkt in der Hand des Kellners.");
+                break;
         }
+
+
         // Set the waiter Image to whatever images was chosen above
         waiterImageView.setImage(createImage(imageCofi));
 
