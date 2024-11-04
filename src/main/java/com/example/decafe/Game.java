@@ -2,8 +2,6 @@ package com.example.decafe;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -33,85 +31,47 @@ public class Game {
         this.filenameImageThreeCoins = "3coins.png";
     }
 
-    // Getter
-    public Machine getCakeMachine() {
-        return cakeMachine;
-    }
-
-    public Machine getCoffeeMachine() {
-        return coffeeMachine;
-    }
-
-    public Upgrade getCakeUpgrade() {
-        return cakeUpgrade;
-    }
-
-    public Upgrade getCoffeeUpgrade() {
-        return coffeeUpgrade;
-    }
-
-    public Upgrade getPlayerUpgrade() {
-        return playerUpgrade;
-    }
-
-    public String getFilenameImageThreeCoins() {
-        return filenameImageThreeCoins;
-    }
-
-    public String getFilenameImageFourCoins() {
-        return filenameImageFourCoins;
-    }
-
-    public String getFilenameImageDollar() {
-        return filenameImageDollar;
-    }
-
-    public int getCoinsEarned() { return coinsEarned; }
-
     // Method used to create an Image Object
-    public Image createImage(String filename) throws FileNotFoundException {
-        File f = new File(""); // Get filepath of project
-        // Get path to certain Image
-        String filePath = f.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "com" + File.separator + "example" + File.separator + "decafe" + File.separator + filename;
-        InputStream stream = new FileInputStream(filePath); // Convert path into stream
+    public static Image createImage(String filename) throws FileNotFoundException {
+       InputStream stream = new FileInputStream(filename); // Convert path into stream
         return new Image(stream); // Convert stream to Image and return it
     }
 
     // Method to check if the Player can use a certain Upgrade
     public void checkUpgradePossible(Upgrade upgrade) throws FileNotFoundException {
-        if (!upgrade.isAlreadyUsedOnce() && this.coinsEarned >= upgrade.getCoinsNeeded()){ // If upgrade was not already used and the Player earned enough coins to buy it
+        if (!upgrade.isUsed() && this.coinsEarned >= upgrade.getCoinsNeeded()) { // If upgrade was not already used and the Player earned enough coins to buy it
             // Enable the ImageView
-            upgrade.getUpgradeImageView().setDisable(false);
+            upgrade.getImageView().setDisable(false);
             // Set the Image to the "activated" Upgrade Image
-            upgrade.getUpgradeImageView().setImage(createImage(upgrade.getFilenameUpgradeNotUsed()));
+            upgrade.getImageView().setImage(createImage(upgrade.getFilenameUpgradeNotUsed()));
         } else { // If the upgrade was used already or the Player hasn't enough coins to buy it
             // Disable the Image
-            upgrade.getUpgradeImageView().setDisable(true);
+            upgrade.getImageView().setDisable(true);
             // Set the Image to "deactivated" Upgrade Image
-            upgrade.getUpgradeImageView().setImage(createImage(upgrade.getFilenameUpgradeUsed()));
+            upgrade.getImageView().setImage(createImage(upgrade.getFilenameUpgradeUsed()));
         }
     }
 
     // Method to do a certain upgrade
-    public void doUpgrade(String type, Player CofiBrew) throws FileNotFoundException {
+    public void doUpgrade(UpgradeEnum type, Player cofiBrew) throws FileNotFoundException {
         switch (type) { // Switch the type of upgrade you received
-            case "coffee" -> { // If the player chose the coffee upgrade
+            case COFFEE -> { // If the player chose the coffee upgrade
                 // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
                 coinsEarned = coffeeUpgrade.doUpgrades(coinsEarned);
                 // Increase the speed of the Coffee Machine
                 coffeeMachine.setDuration(2);
             }
-            case "cake" -> { // If the player chose the cake upgrade
+            case CAKE -> { // If the player chose the cake upgrade
                 // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
                 coinsEarned = cakeUpgrade.doUpgrades(coinsEarned);
                 // Increase the speed of the Cake Machine
                 cakeMachine.setDuration(2);
             }
-            case "player" -> { // If the player chose the player upgrade
+            case PLAYER -> { // If the player chose the player upgrade
                 // Set the coin score according to what the upgrade cost + change Image and Disable upgrade
                 coinsEarned = playerUpgrade.doUpgrades(coinsEarned);
                 // Increase the movement speed of the Player
-                CofiBrew.setMovement(6);
+                cofiBrew.setMovement(6);
             }
         }
     }
@@ -128,5 +88,41 @@ public class Game {
             // Increase coin score by 3
             this.coinsEarned += 3;
         }
+    }
+
+    public Machine getCoffeeMachine() {
+        return coffeeMachine;
+    }
+
+    public Machine getCakeMachine() {
+        return cakeMachine;
+    }
+
+    public Upgrade getCoffeeUpgrade() {
+        return coffeeUpgrade;
+    }
+
+    public Upgrade getCakeUpgrade() {
+        return cakeUpgrade;
+    }
+
+    public Upgrade getPlayerUpgrade() {
+        return playerUpgrade;
+    }
+
+    public int getCoinsEarned() {
+        return coinsEarned;
+    }
+
+    public String getFilenameImageThreeCoins() {
+        return filenameImageThreeCoins;
+    }
+
+    public String getFilenameImageFourCoins() {
+        return filenameImageFourCoins;
+    }
+
+    public String getFilenameImageDollar() {
+        return filenameImageDollar;
     }
 }

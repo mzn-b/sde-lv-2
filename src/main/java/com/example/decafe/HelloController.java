@@ -181,9 +181,13 @@ public class HelloController implements Initializable {
     public void keyPressed(KeyEvent event) {
         switch (event.getCode()) {
             case W -> wPressed.set(true);
+            case UP -> wPressed.set(true);
             case A -> aPressed.set(true);
+            case LEFT -> aPressed.set(true);
             case S -> sPressed.set(true);
+            case DOWN -> sPressed.set(true);
             case D -> dPressed.set(true);
+            case RIGHT -> dPressed.set(true);
         }
     }
 
@@ -192,9 +196,13 @@ public class HelloController implements Initializable {
     public void keyReleased(KeyEvent event) {
         switch (event.getCode()) {
             case W -> wPressed.set(false);
+            case UP -> wPressed.set(false);
             case A -> aPressed.set(false);
+            case LEFT -> aPressed.set(false);
             case S -> sPressed.set(false);
+            case DOWN -> sPressed.set(false);
             case D -> dPressed.set(false);
+            case RIGHT -> dPressed.set(false);
         }
     }
 
@@ -491,7 +499,7 @@ public class HelloController implements Initializable {
     // Method to actively use an Upgrade
     public void doUpgrade(MouseEvent e) throws FileNotFoundException {
         // activate the Upgrade (according to whatever ImageView was chosen)
-        Play.doUpgrade(((ImageView) e.getSource()).getId(), CofiBrew);
+        Play.doUpgrade(UpgradeEnum.valueOf(((ImageView) e.getSource()).getId()), CofiBrew);
         // set the coin label to the correct amount of coins (coins earned - upgrade costs)
         coinsEarnedLabel.setText(String.valueOf(Play.getCoinsEarned()));
 
@@ -529,7 +537,7 @@ public class HelloController implements Initializable {
         ((ImageView) e.getSource()).setVisible(false); // disable the coin Image and make it invisible
         ((ImageView) e.getSource()).setDisable(true);
 
-        if (Play.getCoinsEarned() < 80) { // check if enough coins were earned to end the game
+        if (Play.getCoinsEarned() < 70) { // check if enough coins were earned to end the game
             checkUpgradePossible(Play.getCoffeeUpgrade()); // if not, check if any upgrades would be possible
             checkUpgradePossible(Play.getCakeUpgrade());
             checkUpgradePossible(Play.getPlayerUpgrade());

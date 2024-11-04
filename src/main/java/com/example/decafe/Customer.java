@@ -96,7 +96,9 @@ public class Customer {
 
         String[] orders = {"cake", "coffee"};
         Random random = new Random();
+
         return orders[random.nextInt(orders.length)];
+
     }
 
     public ImageView getCoinImage() { //returns the image of the coin
@@ -189,7 +191,7 @@ public class Customer {
                         controllerTimer.purge();
                     }
                 },
-                duration * 1000L
+                duration * 1200L
         );
     }
 
@@ -209,7 +211,7 @@ public class Customer {
                         controllerTimer.purge();
                     }
                 },
-                1000
+                1200
         );
         this.sixtySecondsTimer.cancel(); //cancel the 60 seconds when customer left
     }
@@ -218,6 +220,7 @@ public class Customer {
     public void waitingTime() {
         Customer customer = this;
         TimerTask timerTask = new TimerTask() {
+
             int seconds = 60;
 
             @Override
@@ -234,6 +237,7 @@ public class Customer {
                     } else if (seconds == 0) {
                         startTimerLeave(customer);
                         this.cancel(); // Stop the timer when finished
+
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
